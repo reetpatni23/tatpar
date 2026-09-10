@@ -4,6 +4,12 @@ import SitePanel from "./components/SitePanel";
 import { fetchLocations } from "./api";
 import "./App.css";
 
+function rainfallLabel(value) {
+  if (value < 1.3) return "Normal";
+  if (value < 1.7) return "Elevated";
+  return "Heavy";
+}
+
 function App() {
   const [features, setFeatures] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
@@ -23,16 +29,22 @@ function App() {
         <span className="app-subtitle">Landslide Risk Monitoring — Aizawl District (Demo)</span>
         <div className="rainfall-control">
           <label htmlFor="rainfall">Simulated Rainfall Intensity</label>
-          <input
-            id="rainfall"
-            type="range"
-            min="1"
-            max="2"
-            step="0.1"
-            value={rainfall}
-            onChange={(e) => setRainfall(parseFloat(e.target.value))}
-          />
-          <span className="rainfall-value">{rainfall.toFixed(1)}x — Demo Input</span>
+          <div className="rainfall-slider-row">
+            <span className="rainfall-scale-label">Normal</span>
+            <input
+              id="rainfall"
+              type="range"
+              min="1"
+              max="2"
+              step="0.1"
+              value={rainfall}
+              onChange={(e) => setRainfall(parseFloat(e.target.value))}
+            />
+            <span className="rainfall-scale-label">Heavy</span>
+          </div>
+          <span className="rainfall-value">
+            {rainfall.toFixed(1)}x — {rainfallLabel(rainfall)} (Demo Input)
+          </span>
         </div>
       </header>
       <div className="body-wrap">
