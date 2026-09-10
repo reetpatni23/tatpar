@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, CircleMarker, Popup, Polyline, Tooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { fetchLocations } from "../api";
 
 const AIZAWL_CENTER = [23.7307, 92.7173];
 
@@ -11,13 +9,7 @@ function rankColor(rank) {
   return "#2e7d32";
 }
 
-export default function LandslideMap({ onSelect, rainfallMultiplier, selectedId }) {
-  const [features, setFeatures] = useState([]);
-
-  useEffect(() => {
-    fetchLocations(rainfallMultiplier).then((data) => setFeatures(data.features));
-  }, [rainfallMultiplier]);
-
+export default function LandslideMap({ features, onSelect, selectedId }) {
   return (
     <MapContainer
       center={AIZAWL_CENTER}
@@ -74,7 +66,7 @@ export default function LandslideMap({ onSelect, rainfallMultiplier, selectedId 
                 fillOpacity: 0.7,
                 weight: 2,
               }}
-              eventHandlers={{ click: () => onSelect && onSelect(p) }}
+              eventHandlers={{ click: () => onSelect && onSelect(p.id) }}
             >
               <Popup>
                 <strong>{p.name}</strong>

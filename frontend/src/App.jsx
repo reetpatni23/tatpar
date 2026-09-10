@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LandslideMap from "./components/LandslideMap";
 import SitePanel from "./components/SitePanel";
+import { fetchLocations } from "./api";
 import "./App.css";
 
 function App() {
-  const [selected, setSelected] = useState(null);
+  const [features, setFeatures] = useState([]);
+  const [selectedId, setSelectedId] = useState(null);
   const [rainfall, setRainfall] = useState(1.0);
+
+  useEffect(() => {
+    fetchLocations(rainfall).then((data) => setFeatures(data.features));
+  }, [rainfall]);
+
+  const selectedSite =
+    features.find((f) => f.properties.id === selectedId)?.properties || null;
 
   return (
     <div className="app-shell">
@@ -29,12 +38,12 @@ function App() {
       <div className="body-wrap">
         <div className="map-wrap">
           <LandslideMap
-            onSelect={setSelected}
-            rainfallMultiplier={rainfall}
-            selectedId={selected?.id}
+            features={features}
+            onSelect={setSelectedId}
+            selectedId={selectedId}
           />
         </div>
-        <SitePanel site={selected} rainfallMultiplier={rainfall} />
+        <SitePanel key={selectedId} site={selectedSite} rainfallMultiplier={rainfall} />
       </div>
     </div>
   );
