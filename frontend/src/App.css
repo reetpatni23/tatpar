@@ -96,13 +96,17 @@
   margin-bottom: 16px;
 }
 .why-box {
-  background: #2a1414;
-  border: 1px solid #d32f2f;
+  background: #2a2410;
+  border: 1px solid #d4a017;
+  border-left: 4px solid #d4a017;
   border-radius: 6px;
   padding: 12px;
   margin-bottom: 16px;
   font-size: 13px;
   line-height: 1.5;
+}
+.why-box strong {
+  color: #f0c040;
 }
 .generate-btn {
   width: 100%;
