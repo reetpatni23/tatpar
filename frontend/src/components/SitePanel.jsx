@@ -8,7 +8,14 @@ export default function SitePanel({ site, rainfallMultiplier }) {
   if (!site) {
     return (
       <aside className="site-panel site-panel-empty">
-        <p>Click a site on the map to see details.</p>
+        <div className="empty-state-content">
+          <h3>Hazard alone isn't the full picture.</h3>
+          <p className="empty-state-sub">
+            TATPAR ranks sites by consequence — population exposure, critical
+            roads, and isolation risk — not hazard probability alone.
+          </p>
+          <p className="empty-state-cta">Click a site on the map to see details.</p>
+        </div>
       </aside>
     );
   }

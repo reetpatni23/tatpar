@@ -163,15 +163,27 @@
   background: #2a2014;
   border-color: #f57c00;
 }
+.response-box {
+  padding: 0;
+  overflow: hidden;
+}
 .urgency-tag {
-  display: inline-block;
-  font-size: 11px;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.5px;
-  padding: 3px 8px;
-  border-radius: 4px;
-  background: rgba(255,255,255,0.15);
-  margin-bottom: 8px;
+  letter-spacing: 1px;
+  text-align: center;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.12);
+  margin-bottom: 0;
+}
+.response-box ul {
+  padding: 8px 18px 8px 30px;
+}
+.response-box .confidence-note {
+  padding: 0 12px 12px;
 }
 .response-box ul {
   margin: 8px 0;
@@ -232,4 +244,23 @@
   height: 10px;
   border-radius: 50%;
   display: inline-block;
+}
+
+.empty-state-content h3 {
+  font-size: 16px;
+  color: #e6edf5;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.empty-state-sub {
+  font-size: 13px;
+  color: #9fb3c8;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+.empty-state-cta {
+  font-size: 12px;
+  color: #6d84a0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
