@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, CircleMarker, Popup, Polyline, Tooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { fetchLocations } from "../api";
 
@@ -11,7 +11,7 @@ function rankColor(rank) {
   return "#2e7d32";
 }
 
-export default function LandslideMap({ onSelect, rainfallMultiplier }) {
+export default function LandslideMap({ onSelect, rainfallMultiplier, selectedId }) {
   const [features, setFeatures] = useState([]);
 
   useEffect(() => {
@@ -31,29 +31,62 @@ export default function LandslideMap({ onSelect, rainfallMultiplier }) {
       {features.map((f) => {
         const p = f.properties;
         const [lng, lat] = f.geometry.coordinates;
+        const isSelected = p.id === selectedId;
+        const showVillages = isSelected && p.village_points?.length > 0;
+
         return (
-          <CircleMarker
-            key={p.id}
-            center={[lat, lng]}
-            radius={p.priority_rank === 1 ? 16 : 11}
-            pathOptions={{
-              color: rankColor(p.priority_rank),
-              fillColor: rankColor(p.priority_rank),
-              fillOpacity: 0.7,
-              weight: 2,
-            }}
-            eventHandlers={{ click: () => onSelect && onSelect(p) }}
-          >
-            <Popup>
-              <strong>{p.name}</strong>
-              <br />
-              Priority Rank: #{p.priority_rank}
-              <br />
-              Hazard Probability: {p.hazard_probability}
-              <br />
-              Priority Score: {p.priority_score}
-            </Popup>
-          </CircleMarker>
+          <div key={p.id}>
+            {showVillages &&
+              p.village_points.map((v) => (
+                <div key={v.name}>
+                  <Polyline
+                    positions={[[lat, lng], [v.lat, v.lng]]}
+                    pathOptions={{
+                      color: "#d32f2f",
+                      weight: 2,
+                      dashArray: "6 6",
+                      opacity: 0.8,
+                    }}
+                  />
+                  <CircleMarker
+                    center={[v.lat, v.lng]}
+                    radius={6}
+                    pathOptions={{
+                      color: "#fff",
+                      fillColor: "#d32f2f",
+                      fillOpacity: 1,
+                      weight: 2,
+                    }}
+                  >
+                    <Tooltip permanent direction="top" offset={[0, -6]}>
+                      {v.name}
+                    </Tooltip>
+                  </CircleMarker>
+                </div>
+              ))}
+
+            <CircleMarker
+              center={[lat, lng]}
+              radius={p.priority_rank === 1 ? 16 : 11}
+              pathOptions={{
+                color: rankColor(p.priority_rank),
+                fillColor: rankColor(p.priority_rank),
+                fillOpacity: 0.7,
+                weight: 2,
+              }}
+              eventHandlers={{ click: () => onSelect && onSelect(p) }}
+            >
+              <Popup>
+                <strong>{p.name}</strong>
+                <br />
+                Priority Rank: #{p.priority_rank}
+                <br />
+                Hazard Probability: {p.hazard_probability}
+                <br />
+                Priority Score: {p.priority_score}
+              </Popup>
+            </CircleMarker>
+          </div>
         );
       })}
     </MapContainer>

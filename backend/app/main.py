@@ -14,9 +14,17 @@ app.add_middleware(
 
 DATA_PATH = Path(__file__).resolve().parents[2] / "data" / "demo" / "locations.geojson"
 
+# Demo village coordinates near Aizawl, used only for sites with affected_villages
+VILLAGE_COORDS = {
+    "Sialsuk": [92.8350, 23.6700],
+    "Ratu": [92.8500, 23.6550],
+    "Zote": [92.8250, 23.6450],
+    "Zemabawk": [92.7600, 23.7500],
+    "Durtlang": [92.7200, 23.7850],
+}
 
-def compute_priority(props: dict, rainfall_multiplier: float) -> dict:
-    # Simulated rainfall spike increases hazard probability, capped at 0.97
+
+def compute_priority(props: dict, rainfall_multiplier: float) -> tuple:
     base_hazard = props["hazard_probability"]
     adjusted_hazard = min(base_hazard * rainfall_multiplier, 0.97)
 
@@ -39,6 +47,13 @@ def get_locations(rainfall_multiplier: float = 1.0):
         props["hazard_probability"] = adjusted_hazard
         props["priority_score"] = score
         props["rainfall_multiplier_applied"] = rainfall_multiplier
+
+        # Attach village coordinates for isolation visualization
+        props["village_points"] = [
+            {"name": v, "lng": VILLAGE_COORDS[v][0], "lat": VILLAGE_COORDS[v][1]}
+            for v in props["affected_villages"]
+            if v in VILLAGE_COORDS
+        ]
 
     ranked = sorted(data["features"], key=lambda f: f["properties"]["priority_score"], reverse=True)
     for i, feature in enumerate(ranked, start=1):

@@ -28,7 +28,11 @@ function App() {
       </header>
       <div className="body-wrap">
         <div className="map-wrap">
-          <LandslideMap onSelect={setSelected} rainfallMultiplier={rainfall} />
+          <LandslideMap
+            onSelect={setSelected}
+            rainfallMultiplier={rainfall}
+            selectedId={selected?.id}
+          />
         </div>
         <SitePanel site={selected} />
       </div>
