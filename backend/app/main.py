@@ -39,7 +39,7 @@ def compute_priority(props: dict, rainfall_multiplier: float) -> tuple:
 
 @app.get("/api/locations")
 def get_locations(rainfall_multiplier: float = 1.0):
-    data = json.loads(DATA_PATH.read_text())
+    data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
 
     for feature in data["features"]:
         props = feature["properties"]
@@ -92,7 +92,7 @@ def generate_response_text(props: dict) -> dict:
 
 @app.get("/api/response/{site_id}")
 def get_response(site_id: str, rainfall_multiplier: float = 1.0):
-    data = json.loads(DATA_PATH.read_text())
+    data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
 
     for feature in data["features"]:
         props = feature["properties"]
