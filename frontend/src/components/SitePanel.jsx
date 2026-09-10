@@ -1,4 +1,10 @@
-export default function SitePanel({ site }) {
+import { useState } from "react";
+import { fetchResponse } from "../api";
+
+export default function SitePanel({ site, rainfallMultiplier }) {
+  const [response, setResponse] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   if (!site) {
     return (
       <aside className="site-panel site-panel-empty">
@@ -8,6 +14,18 @@ export default function SitePanel({ site }) {
   }
 
   const isTopPriority = site.priority_rank === 1;
+
+  const handleGenerate = async () => {
+    setLoading(true);
+    try {
+      const result = await fetchResponse(site.id, rainfallMultiplier);
+      setResponse(result);
+    } catch (e) {
+      setResponse({ error: "Could not generate response." });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <aside className="site-panel">
@@ -62,7 +80,21 @@ export default function SitePanel({ site }) {
         </div>
       )}
 
-      <button className="generate-btn">Generate Response</button>
+      <button className="generate-btn" onClick={handleGenerate} disabled={loading}>
+        {loading ? "Generating..." : "Generate Response"}
+      </button>
+
+      {response && !response.error && (
+        <div className={`response-box urgency-${response.urgency.toLowerCase()}`}>
+          <span className="urgency-tag">{response.urgency}</span>
+          <ul>
+            {response.actions.map((a, i) => (
+              <li key={i}>{a}</li>
+            ))}
+          </ul>
+          <p className="confidence-note">{response.confidence_note}</p>
+        </div>
+      )}
 
       <p className="data-tag">Source: {site.data_source}</p>
     </aside>

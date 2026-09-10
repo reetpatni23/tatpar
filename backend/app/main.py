@@ -60,3 +60,49 @@ def get_locations(rainfall_multiplier: float = 1.0):
         feature["properties"]["priority_rank"] = i
 
     return data
+
+
+def generate_response_text(props: dict) -> dict:
+    rank = props["priority_rank"]
+    urgency = "IMMEDIATE" if rank == 1 else ("ELEVATED" if rank == 2 else "MONITOR")
+
+    actions = []
+    if props["critical_road"]:
+        actions.append("Deploy road inspection team to assess structural stability before next rainfall window.")
+    if props["isolation_risk"] == "High":
+        actions.append(f"Pre-position emergency supplies for {', '.join(props['affected_villages'])} in case of access loss.")
+    if "Hospital" in props.get("essential_facility_access", ""):
+        actions.append("Coordinate alternate medical evacuation route with district health authority.")
+    if props["population_exposure"] > 1000:
+        actions.append(f"Issue advisory to {props['population_exposure']:,} residents in the exposure zone.")
+    if not actions:
+        actions.append("Continue routine monitoring; no immediate field action required.")
+
+    return {
+        "urgency": urgency,
+        "site_name": props["name"],
+        "priority_rank": rank,
+        "actions": actions,
+        "confidence_note": f"Based on {int(props['confidence'] * 100)}% model confidence — recommend field verification before dispatch.",
+    }
+
+
+@app.get("/api/response/{site_id}")
+def get_response(site_id: str, rainfall_multiplier: float = 1.0):
+    data = json.loads(DATA_PATH.read_text())
+
+    for feature in data["features"]:
+        props = feature["properties"]
+        adjusted_hazard, score = compute_priority(props, rainfall_multiplier)
+        props["hazard_probability"] = adjusted_hazard
+        props["priority_score"] = score
+
+    ranked = sorted(data["features"], key=lambda f: f["properties"]["priority_score"], reverse=True)
+    for i, feature in enumerate(ranked, start=1):
+        feature["properties"]["priority_rank"] = i
+
+    target = next((f for f in data["features"] if f["properties"]["id"] == site_id), None)
+    if not target:
+        return {"error": "site not found"}
+
+    return generate_response_text(target["properties"])

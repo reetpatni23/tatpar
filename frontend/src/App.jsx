@@ -34,7 +34,7 @@ function App() {
             selectedId={selected?.id}
           />
         </div>
-        <SitePanel site={selected} />
+        <SitePanel site={selected} rainfallMultiplier={rainfall} />
       </div>
     </div>
   );
