@@ -76,7 +76,10 @@ def generate_response_text(props: dict) -> dict:
     if props["population_exposure"] > 1000:
         actions.append(f"Issue advisory to {props['population_exposure']:,} residents in the exposure zone.")
     if not actions:
-        actions.append("Continue routine monitoring; no immediate field action required.")
+        if urgency == "ELEVATED":
+            actions.append("Increase monitoring frequency and prepare resources in case conditions worsen.")
+        else:
+            actions.append("Continue routine monitoring; no immediate field action required.")
 
     return {
         "urgency": urgency,
