@@ -6,17 +6,17 @@ import { fetchLocations } from "../api";
 const AIZAWL_CENTER = [23.7307, 92.7173];
 
 function rankColor(rank) {
-  if (rank === 1) return "#d32f2f"; // priority #1 — red
-  if (rank === 2) return "#f57c00"; // orange
-  return "#2e7d32"; // green
+  if (rank === 1) return "#d32f2f";
+  if (rank === 2) return "#f57c00";
+  return "#2e7d32";
 }
 
-export default function LandslideMap({ onSelect }) {
+export default function LandslideMap({ onSelect, rainfallMultiplier }) {
   const [features, setFeatures] = useState([]);
 
   useEffect(() => {
-    fetchLocations().then((data) => setFeatures(data.features));
-  }, []);
+    fetchLocations(rainfallMultiplier).then((data) => setFeatures(data.features));
+  }, [rainfallMultiplier]);
 
   return (
     <MapContainer
