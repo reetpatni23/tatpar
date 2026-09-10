@@ -1,0 +1,53 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "site-a",
+        "name": "Site A — Zemabawk Slope",
+        "hazard_probability": 0.82,
+        "confidence": 0.74,
+        "population_exposure": 120,
+        "critical_road": false,
+        "affected_villages": ["Zemabawk"],
+        "essential_facility_access": "Not blocked",
+        "isolation_risk": "Low",
+        "data_source": "Demo Input"
+      },
+      "geometry": { "type": "Point", "coordinates": [92.7550, 23.7450] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "site-b",
+        "name": "Site B — Aizawl-Champhai Highway Cut",
+        "hazard_probability": 0.61,
+        "confidence": 0.69,
+        "population_exposure": 3400,
+        "critical_road": true,
+        "affected_villages": ["Sialsuk", "Ratu", "Zote"],
+        "essential_facility_access": "District Hospital access at risk",
+        "isolation_risk": "High",
+        "data_source": "Demo Input"
+      },
+      "geometry": { "type": "Point", "coordinates": [92.8100, 23.6900] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "site-c",
+        "name": "Site C — Durtlang Ridge",
+        "hazard_probability": 0.45,
+        "confidence": 0.71,
+        "population_exposure": 800,
+        "critical_road": false,
+        "affected_villages": ["Durtlang"],
+        "essential_facility_access": "Not blocked",
+        "isolation_risk": "Medium",
+        "data_source": "Demo Input"
+      },
+      "geometry": { "type": "Point", "coordinates": [92.7180, 23.7800] }
+    }
+  ]
+}
