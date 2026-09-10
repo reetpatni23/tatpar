@@ -54,6 +54,17 @@ function App() {
             onSelect={setSelectedId}
             selectedId={selectedId}
           />
+          <div className="map-legend">
+            <div className="map-legend-item">
+              <span className="map-legend-dot rank-1"></span> Priority #1
+            </div>
+            <div className="map-legend-item">
+              <span className="map-legend-dot rank-2"></span> Priority #2
+            </div>
+            <div className="map-legend-item">
+              <span className="map-legend-dot rank-3"></span> Priority #3
+            </div>
+          </div>
         </div>
         <SitePanel key={selectedId} site={selectedSite} rainfallMultiplier={rainfall} />
       </div>
