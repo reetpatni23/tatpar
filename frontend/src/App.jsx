@@ -19,8 +19,20 @@ function App() {
     fetchLocations(rainfall).then((data) => setFeatures(data.features));
   }, [rainfall]);
 
+  const [baselineRainfall, setBaselineRainfall] = useState(1.0);
+  const [baselineFeatures, setBaselineFeatures] = useState([]);
+
   const selectedSite =
     features.find((f) => f.properties.id === selectedId)?.properties || null;
+
+  const baselineSite =
+    baselineFeatures.find((f) => f.properties.id === selectedId)?.properties || null;
+
+  const handleSelect = (id) => {
+    setBaselineRainfall(rainfall);
+    setBaselineFeatures(features);
+    setSelectedId(id);
+  };
 
   return (
     <div className="app-shell">
@@ -51,7 +63,7 @@ function App() {
         <div className="map-wrap">
           <LandslideMap
             features={features}
-            onSelect={setSelectedId}
+            onSelect={handleSelect}
             selectedId={selectedId}
           />
           <div className="map-legend">
@@ -66,7 +78,13 @@ function App() {
             </div>
           </div>
         </div>
-        <SitePanel key={selectedId} site={selectedSite} rainfallMultiplier={rainfall} />
+        <SitePanel
+          key={selectedId}
+          site={selectedSite}
+          rainfallMultiplier={rainfall}
+          baselineSite={baselineSite}
+          baselineRainfall={baselineRainfall}
+        />
       </div>
     </div>
   );

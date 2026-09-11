@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { fetchResponse } from "../api";
 
-export default function SitePanel({ site, rainfallMultiplier }) {
+export default function SitePanel({ site, rainfallMultiplier, baselineSite, baselineRainfall }) {
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -42,6 +42,33 @@ export default function SitePanel({ site, rainfallMultiplier }) {
         </span>
         <h2>{site.name}</h2>
       </div>
+
+      {baselineSite && rainfallMultiplier !== baselineRainfall && (
+        <div className="shift-box">
+          <span className="shift-title">RAINFALL TRIGGER</span>
+          <div className="shift-trigger-value">
+            {baselineRainfall.toFixed(1)}x → {rainfallMultiplier.toFixed(1)}x
+          </div>
+          <div className="shift-row">
+            <span>Hazard</span>
+            <span>
+              {Math.round(baselineSite.hazard_probability * 100)}% →{" "}
+              {Math.round(site.hazard_probability * 100)}%
+            </span>
+          </div>
+          <div className="shift-row">
+            <span>Priority</span>
+            <span>
+              #{baselineSite.priority_rank} → #{site.priority_rank}
+            </span>
+          </div>
+          <p className="shift-reason">
+            {baselineSite.priority_rank === site.priority_rank
+              ? `Priority remains #${site.priority_rank} because consequence factors — population, critical road, isolation — haven't changed. Only hazard has.`
+              : `Priority shifted from #${baselineSite.priority_rank} to #${site.priority_rank} as rising hazard combined with this site's exposure profile changed its relative ranking.`}
+          </p>
+        </div>
+      )}
 
       <div className="site-panel-grid">
         <div>
