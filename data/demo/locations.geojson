@@ -10,12 +10,25 @@
         "confidence": 0.74,
         "population_exposure": 120,
         "critical_road": false,
-        "affected_villages": ["Zemabawk"],
+        "affected_villages": [
+          "Zemabawk"
+        ],
         "essential_facility_access": "Not blocked",
         "isolation_risk": "Low",
-        "data_source": "Demo Input"
+        "data_source": "Demo Input",
+        "evidence_basis": [
+          "Recent rainfall trend: Elevated",
+          "Slope terrain data: Steep gradient",
+          "Historical incident proximity: Limited data"
+        ]
       },
-      "geometry": { "type": "Point", "coordinates": [92.7550, 23.7450] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          92.755,
+          23.745
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -26,12 +39,27 @@
         "confidence": 0.69,
         "population_exposure": 3400,
         "critical_road": true,
-        "affected_villages": ["Sialsuk", "Ratu", "Zote"],
+        "affected_villages": [
+          "Sialsuk",
+          "Ratu",
+          "Zote"
+        ],
         "essential_facility_access": "District Hospital access at risk",
         "isolation_risk": "High",
-        "data_source": "Demo Input"
+        "data_source": "Demo Input",
+        "evidence_basis": [
+          "Recent rainfall trend: Moderate",
+          "Slope terrain data: Moderate signal",
+          "Historical incident proximity: Prior minor slippage recorded nearby"
+        ]
       },
-      "geometry": { "type": "Point", "coordinates": [92.8100, 23.6900] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          92.81,
+          23.69
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -42,12 +70,25 @@
         "confidence": 0.71,
         "population_exposure": 800,
         "critical_road": false,
-        "affected_villages": ["Durtlang"],
+        "affected_villages": [
+          "Durtlang"
+        ],
         "essential_facility_access": "Not blocked",
         "isolation_risk": "Medium",
-        "data_source": "Demo Input"
+        "data_source": "Demo Input",
+        "evidence_basis": [
+          "Recent rainfall trend: Low",
+          "Slope terrain data: Gentle gradient",
+          "Historical incident proximity: No recorded incidents"
+        ]
       },
-      "geometry": { "type": "Point", "coordinates": [92.7180, 23.7800] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          92.718,
+          23.78
+        ]
+      }
     }
   ]
 }

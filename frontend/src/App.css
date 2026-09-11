@@ -264,3 +264,11 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
+.evidence-list {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: #cdd8e3;
+  line-height: 1.6;
+}

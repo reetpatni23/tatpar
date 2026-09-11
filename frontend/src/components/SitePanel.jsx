@@ -75,6 +75,17 @@ export default function SitePanel({ site, rainfallMultiplier }) {
         <p>{site.affected_villages.join(", ")}</p>
       </div>
 
+      {site.evidence_basis && (
+        <div className="section">
+          <span className="label">Confidence Basis (Demo Evidence)</span>
+          <ul className="evidence-list">
+            {site.evidence_basis.map((line, i) => (
+              <li key={i}>{line}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {isTopPriority && (
         <div className="why-box">
           <strong>Why Priority #1?</strong>
